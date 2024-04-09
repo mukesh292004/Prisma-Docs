@@ -1,7 +1,8 @@
 import React from 'react'
 
 const UsersPage = async() => {
-    const res=await fetch('https://jsonplaceholder.typicode.com/users');
+    const res=await fetch('https://jsonplaceholder.typicode.com/users',{cache:'no-store'});
+    // const res=await fetch('https://jsonplaceholder.typicode.com/users',{next:{revalidate:10}});
     const users:[{id:number,name:string}]=await res.json();
   return (
     <>
