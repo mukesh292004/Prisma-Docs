@@ -1,6 +1,6 @@
 import { sort } from 'fast-sort';
 import Link from 'next/link';
-import React from 'react'
+import React, { Suspense } from 'react'
 
 const UsersPage = async({searchParams:{sortOrder}}:{searchParams:{sortOrder:string}}) => {
       const res=await fetch('https://jsonplaceholder.typicode.com/users');
@@ -14,6 +14,7 @@ const UsersPage = async({searchParams:{sortOrder}}:{searchParams:{sortOrder:stri
       <div>
           <h1>Users</h1>
           <p>{new Date().toLocaleTimeString()}</p>
+          <button className='bg-blue-500 text-white p-2 rounded'><Link href="/users/new">New User</Link></button>
           <ul>
               
           </ul>
@@ -28,11 +29,13 @@ const UsersPage = async({searchParams:{sortOrder}}:{searchParams:{sortOrder:stri
       </tr>
     </thead>
     <tbody>
+      <Suspense fallback={<div>Loading...</div>}>
     {sorteduser.map(users=>(
               <tr key={users.id}><td>{users.id}</td>
               <td>{users.name}</td>
               <td>{users.email}</td></tr>
               ))}
+              </Suspense>
     </tbody>
   </table>
 </div>
