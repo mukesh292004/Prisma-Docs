@@ -1,9 +1,14 @@
+import { sort } from 'fast-sort';
+import Link from 'next/link';
 import React from 'react'
 
-const UsersPage = async() => {
+const UsersPage = async({searchParams:{sortOrder}}:{searchParams:{sortOrder:string}}) => {
       const res=await fetch('https://jsonplaceholder.typicode.com/users');
       // const res=await fetch('https://jsonplaceholder.typicode.com/users',{next:{revalidate:10}});
-      const users:[{id:number,name:string}]=await res.json();
+      const users: { id: number; name: string; email: string; }[] = await res.json();
+      // implemnet sort based on the sort order based on the alphabet of names 
+      //Invalid sort config: Expected `asc` or `desc` property
+    const sorteduser=  sort(users).asc(sortOrder==='email'?user=>user.email:user=>user.name);
     return (
       <>
       <div>
@@ -16,14 +21,17 @@ const UsersPage = async() => {
   <table className="table">
     <thead>
       <tr>
-        <th>ID</th>
-        <th>Name</th>
+        <th><Link href="/users?sortOrder=id">ID</Link></th>
+        <th><Link href="/users?sortOrder=name">Name</Link></th>
+        <th><Link href="/users?sortOrder=email">Email</Link></th>
+        
       </tr>
     </thead>
     <tbody>
-    {users.map(users=>(
+    {sorteduser.map(users=>(
               <tr key={users.id}><td>{users.id}</td>
-              <td>{users.name}</td></tr>
+              <td>{users.name}</td>
+              <td>{users.email}</td></tr>
               ))}
     </tbody>
   </table>
