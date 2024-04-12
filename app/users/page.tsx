@@ -29,7 +29,8 @@ const UsersPage = async({searchParams:{sortOrder}}:{searchParams:{sortOrder:stri
       </tr>
     </thead>
     <tbody>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={
+<span className="loading loading-bars loading-lg"> Loa</span>}>
     {sorteduser.map(users=>(
               <tr key={users.id}><td>{users.id}</td>
               <td>{users.name}</td>
